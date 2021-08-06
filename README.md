@@ -12,6 +12,6 @@ Next you are presented with the following options:
 - Perform the default NER from spaCy library, available in the open source. Insert the desired piece of the text and press the 'Extract Entities' button. You will be given the json file containing all the labled words and phrases.
 - Perform the default NER from Flair library, available in the open source. Insert the desired piece of the text and press the 'Extract Entities' button. You will be given the json file containing all the labled words and phrases.
 - Perform the custom NER, that detects words and phrases labled with 'LOCATION', 'FRUIT', 'DISEASE' and 'POLLUTION'. 
-  To test it you may utilize the following sentence, for instance: **Radioactive bananas are thrown into rubbish bins in Berlin.** 
+  To test it you may utilize the following sentence, for instance: **"Radioactive bananas are thrown into rubbish bins in Berlin."** 
   Insert the desired piece of the text and press the 'Extract Entities' button. You will be given the json file containing all the labled words and phrases.
 - Get the summary of the text using statistical frequencies. To test it -- insert the piece of text into the Text area and press the 'Summarize' button. You will receive the info from the text in a nutshell.
