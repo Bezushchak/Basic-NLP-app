@@ -3,10 +3,6 @@ from flair.datasets import ColumnCorpus
 from flair.models import SequenceTagger
 from flair.trainers import ModelTrainer
 from flair.data import Corpus
-from flair.embeddings import WordEmbeddings, StackedEmbeddings
-from flair.models import SequenceTagger
-from typing import List
-
 from flair.embeddings import *
 
 columns = {0 : 'text', 1 : 'ner'}
