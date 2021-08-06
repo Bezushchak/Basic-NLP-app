@@ -17,8 +17,6 @@ corpus: Corpus = ColumnCorpus(data_folder, columns,
                               train_file = 'train.txt',
                               test_file = 'test.txt',
                               dev_file = 'dev.txt')
-print(len(corpus.train))
-print(corpus.train[0].to_tagged_string('ner'))
 
 tag_type = 'ner'
 tag_dictionary1 = corpus.make_tag_dictionary(tag_type=tag_type)
@@ -37,6 +35,7 @@ tagger : SequenceTagger = SequenceTagger(hidden_size=256,
                                         use_crf=True)
                                         
 trainer : ModelTrainer = ModelTrainer(tagger, corpus)
+
 trainer.train('resources/taggers/example-ner',
                learning_rate=0.1,
                mini_batch_size=32,
