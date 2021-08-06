@@ -1,7 +1,7 @@
 # Basic-NLP-app
 To run the app, you have to clone into this repo and make sure you have all the required packages installed.
 To do so, run the following comand in your terminal ```pip install -r requirements.txt ``` (make sure you are in the directory of the repo).
-Some may want to use [virtualenv](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/). 
+Some may want to use [virtualenv](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/) for this, in case not to mess up the packages that are already installed in your workspace. 
 
 In the terminal execute the following command ```streamlit run app.py```
 This will open a localhost webpage in your default browser (google chrome recommended). 
