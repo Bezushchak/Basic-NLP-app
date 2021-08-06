@@ -3,12 +3,13 @@ import spacy
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lex_rank import LexRankSummarizer
+from flair.models import SequenceTagger
+from flair.data import Label, Sentence
 import nltk
-nltk.download('punkt')
 
 def text_analyzer(my_text, lang):
     try:
-        nlp = spacy.load(lang)
+        nlp = spacy.load(lang+'_core_web_sm')
     except OSError:
         download_error_message = f"You should download the corresponding language by \'python -m spacy download **{lang:}** \'"
         st.error(download_error_message)
@@ -18,9 +19,9 @@ def text_analyzer(my_text, lang):
     token_dict = [('"Token": {},\n "Lemma": {}'.format(token.text, token.lemma_)) for token in nlp_text ]
     return token_dict
 
-def entity_recognition(my_text, lang):
+def spacy_entity_recognition(my_text, lang):
     try:
-        nlp = spacy.load(lang)
+        nlp = spacy.load(lang+'_core_web_sm')
     except OSError:
         download_error_message = f"You should download the corresponding language by \'python -m spacy download **{lang:}** \'"
         st.error(download_error_message)
@@ -29,6 +30,20 @@ def entity_recognition(my_text, lang):
     entities = [(entity.text, entity.label_) for entity in nlp_text.ents ]
     return entities
 
+def flair_entity_recognition(my_text):
+    tagger = SequenceTagger.load('ner')
+    sentence = Sentence(my_text)
+    tagger.predict(sentence)
+    entities = (sentence.to_dict(tag_type = 'ner'))
+    return entities
+
+def custom_entity_recognition(my_text):
+    tagger = SequenceTagger.load('resources/taggers/example-ner/final-model.pt')
+    sentence = Sentence(my_text)
+    tagger.predict(sentence) 
+    entities = (sentence.to_dict(tag_type = 'ner'))
+    return entities
+    
 def sumy_summarizer(my_text):
     parser = PlaintextParser.from_string(my_text,Tokenizer("english"))
     lex_summarizer = LexRankSummarizer()
@@ -55,11 +70,25 @@ def main():
             nlp_result = text_analyzer(text_str, lang_str)
             st.json(nlp_result)
 
-    #NER
-    if st.checkbox('Name Entity Recognition'):
-        text_str = st.text_area('Enter Your Text', key = 'ner')
-        if st.button('Extract Entities'):
-            nlp_result = entity_recognition(text_str, lang_str)
+    #spaCy NER
+    if st.checkbox('Default Name Entity Recognition from spaCy'):
+        text_str = st.text_area('Enter Your Text', key = 'spacy_ner')
+        if st.button('Extract Entities', key = 'spacy'):
+            nlp_result = spacy_entity_recognition(text_str, lang_str)
+            st.json(nlp_result)
+
+    #flair NER
+    if st.checkbox('Default Name Entity Recognition from Flair'):
+        text_str = st.text_area('Enter Your Text', key = 'flair_ner')
+        if st.button('Extract Entities', key = 'flair'):
+            nlp_result = flair_entity_recognition(text_str)
+            st.json(nlp_result)
+    
+    #custom NER
+    if st.checkbox('Custom Name Entity Recognition in Flair'):
+        text_str = st.text_area('Enter Your Text', key = 'custom_flair_ner')
+        if st.button('Extract Entities', key = 'custom_flair'):
+            nlp_result = custom_entity_recognition(text_str)
             st.json(nlp_result)
 
     #Summarization
@@ -69,7 +98,6 @@ def main():
             st.text("Applying Sumy Summarizer")
             summary_result = sumy_summarizer(text_str)
             st.success(summary_result)
-
 
 if __name__ == '__main__':
     main()
