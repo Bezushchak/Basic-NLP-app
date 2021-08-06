@@ -1,0 +1,5 @@
+flair==0.8.0.post1
+spacy==3.1.1
+streamlit==0.85.1
+sumy==0.8.1
+nltk==3.6.2
